@@ -11,7 +11,8 @@ const SECRET = 'IOJCODOTKSSCICVHVYIATPJEGAO22BTR';
 // ==========================================
 const MIN_SALES = 500;           // 銷量 > 500 (大眾熱銷)
 const MIN_RATING = 4.8;          // 評分 > 4.8 (幾乎無負評)
-const MAX_PRICE = 500;           // 價格 < 500 (無腦衝動下單區間)
+const MIN_PRICE = 100;           // 價格 >= 100 (過濾掉利潤太低的湊單品)
+const MAX_PRICE = 500;           // 價格 <= 500 (無腦衝動下單區間)
 const WEBSITE_ITEMS_COUNT = 100; // 每天網站更新 100 筆精華
 
 // 網站資料庫路徑
@@ -23,10 +24,11 @@ const SHOPEE_CATEGORIES = [
     { id: 101774, name: "居家生活" },
     { id: 101186, name: "美妝保養" },
     { id: 101267, name: "3C與筆電" },
-    { id: 101344, name: "手機配件" },
-    { id: 101017, name: "美食零食" },
-    { id: 101569, name: "母嬰用品" },
-    { id: 101918, name: "文具" }
+    { id: 101416, name: "服飾" },
+    { id: 101017, name: "食品" },
+    { id: 101700, name: "運動" },
+    { id: 101569, name: "婦幼" },
+    { id: 101888, name: "寵物" }
 ];
 
 async function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
@@ -118,6 +120,19 @@ function formatForWebsite(item, catName) {
         const top10 = finalWebData.slice(0, 10);
         fs.writeFileSync(top10Path, JSON.stringify(top10, null, 4), 'utf8');
         console.log(`✅ [文案儲備] 已將 Top 10 銷量霸主存入文案庫，等待老闆早上呼叫小蝦撰寫！`);
+
+        // 3. 自動 Push 到 GitHub 觸發 Vercel 更新
+        try {
+            const { execSync } = require('child_process');
+            console.log('🦛 [上雲端] 正在將最新商品資料推送到 GitHub...');
+            execSync('git add store_data.json top10_marketing.json', { cwd: __dirname });
+            execSync('git commit -m "Auto-update Daily Top 100 Products"', { cwd: __dirname });
+            execSync('git push origin main', { cwd: __dirname });
+            console.log('✅ [Vercel 觸發] GitHub 推送成功！Vercel 將在 1 分鐘內自動更新網站！');
+        } catch (gitErr) {
+            console.log('⚠️ [警告] 自動推送 GitHub 失敗:', gitErr.message);
+        }
+
     } else {
         console.log('🦛 [殘酷現實] 今日未掃描到符合特價條件的大眾爆款。');
     }

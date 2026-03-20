@@ -1,127 +1,299 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日系質感選物 | Hippo's Select</title>
+    <title>物超所[質]選物 | 質感導購平台</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2C3E50',
+                        secondary: '#34495E',
+                        accent: '#EAECEE',
+                        textMain: '#2C3E50'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang TC', 'Microsoft JhengHei', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* 隱藏捲軸但保持可滑動 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        body { font-family: 'PingFang TC', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f7f7f7; }
-        .shopee-btn { background-color: #ee4d2d; }
-        .shopee-btn:hover { background-color: #d73211; }
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="text-gray-800 antialiased pb-10">
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
 
-    <!-- 頂部導覽列 -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wider text-gray-800">✨ Hippo's Select</h1>
-            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">質感好物推薦</span>
+    <!-- 導航欄 -->
+    <nav class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
+            <a href="#" class="text-2xl font-bold tracking-widest flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                物超所[質]選物
+            </a>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#home" class="hover:text-gray-300 transition">首頁</a>
+                <a href="#categories" class="hover:text-gray-300 transition">商品分類</a>
+                <a href="#hot" class="hover:text-gray-300 transition">熱門推薦</a>
+                <a href="#about" class="hover:text-gray-300 transition">關於我們</a>
+            </div>
+            <!-- 搜尋框 -->
+            <div class="relative w-full md:w-auto">
+                <input type="text" id="searchInput" placeholder="搜尋嚴選好物..." class="w-full md:w-64 pl-4 pr-10 py-1.5 rounded-full bg-secondary text-white placeholder-gray-300 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 transition text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute right-3 top-2 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主視覺橫幅 -->
+    <header id="home" class="bg-secondary text-white py-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-wide">為您過濾喧囂，留下純粹質感</h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-8 font-light">全網大數據精選・高評價・高銷量・真實高 CP 值</p>
+            <a href="#hot" class="inline-block bg-white text-primary font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition shadow-lg">探索今日嚴選</a>
         </div>
     </header>
 
-    <!-- 主視覺 Banner -->
-    <div class="max-w-4xl mx-auto px-4 mt-4">
-        <div class="rounded-2xl bg-gradient-to-r from-gray-100 to-gray-200 p-6 flex flex-col justify-center items-start bg-cover bg-center" style="background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.9)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
-            <h2 class="text-2xl font-bold mb-1">今日限時破盤特賣</h2>
-            <p class="text-sm text-gray-600 mb-4">嚴選全網最高 CP 值、破萬銷量大眾爆款</p>
+    <!-- 平台優勢說明 -->
+    <section class="py-12 bg-white border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="fade-in" style="animation-delay: 0.1s;">
+                <div class="mx-auto bg-accent w-16 h-16 rounded-full flex items-center justify-center mb-4 text-primary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">嚴格品質把關</h3>
+                <p class="text-gray-500 text-sm">排除低劣評價，只推薦 4.8 星以上零負評好物。</p>
+            </div>
+            <div class="fade-in" style="animation-delay: 0.2s;">
+                <div class="mx-auto bg-accent w-16 h-16 rounded-full flex items-center justify-center mb-4 text-primary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">極致性價比</h3>
+                <p class="text-gray-500 text-sm">數據分析全網銷量，確保您買到最真實的優惠與價值。</p>
+            </div>
+            <div class="fade-in" style="animation-delay: 0.3s;">
+                <div class="mx-auto bg-accent w-16 h-16 rounded-full flex items-center justify-center mb-4 text-primary">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </div>
+                <h3 class="font-bold text-lg text-primary mb-2">每日即時更新</h3>
+                <p class="text-gray-500 text-sm">系統自動為您蒐羅每日最新破盤與免運趨勢。</p>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- 分類標籤 (橫向滑動) -->
-    <div class="max-w-4xl mx-auto px-4 mt-6">
+    <!-- 商品分類區 -->
+    <section id="categories" class="max-w-6xl mx-auto px-4 mt-12">
+        <h2 class="text-2xl font-bold text-primary border-l-4 border-primary pl-3 mb-6">分類檢索</h2>
         <div class="flex overflow-x-auto no-scrollbar space-x-3 pb-2" id="category-container">
-            <!-- JS 自動生成分類 -->
+            <!-- JS 自動生成 8 大分類 -->
         </div>
-    </div>
+    </section>
 
-    <!-- 商品列表 (瀑布流網格) -->
-    <div class="max-w-4xl mx-auto px-4 mt-4">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="product-container">
+    <!-- 商品展示區 -->
+    <section id="hot" class="max-w-6xl mx-auto px-4 mt-8 flex-grow">
+        <div class="flex justify-between items-end mb-6">
+            <h2 class="text-2xl font-bold text-primary border-l-4 border-primary pl-3">熱門推薦</h2>
+            <span id="resultCount" class="text-sm text-gray-500">載入中...</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="product-container">
             <!-- JS 自動生成商品卡片 -->
         </div>
-    </div>
+        <div id="no-results" class="hidden py-20 text-center text-gray-500">
+            <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <p>目前沒有符合條件的商品</p>
+        </div>
+    </section>
+
+    <!-- 關於我們 -->
+    <section id="about" class="bg-white mt-16 py-16 border-t border-gray-200">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-primary mb-6">關於 物超所[質]選物</h2>
+            <p class="text-gray-600 leading-relaxed mb-4">
+                在這個資訊爆炸的時代，購物往往需要花費大量時間比價、看評價、避開地雷。
+                「物超所[質]選物」致力於成為您最信任的跨平台導購顧問。
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                我們透過專業的數據分析模型，每日於汪洋大海中篩選出銷量最高、評價最好、退貨率最低的嚴選好物。
+                您不需要再為了幾十塊的價差猶豫不決，因為在這裡出現的，都已經是精挑細選的質感首選。
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-gray-300 py-10 border-t border-secondary mt-auto">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                    物超所[質]選物
+                </h4>
+                <p class="text-sm leading-relaxed text-gray-400">
+                    專注於發掘生活中的美好事物，為您提供最具質感的購物靈感與超值導購服務。
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">快速連結</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#home" class="hover:text-white transition">返回首頁</a></li>
+                    <li><a href="#hot" class="hover:text-white transition">今日推薦</a></li>
+                    <li><a href="#about" class="hover:text-white transition">平台介紹</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">熱門分類</h4>
+                <ul class="space-y-2 text-sm grid grid-cols-2">
+                    <li><a href="#" onclick="setCategory('居家')" class="hover:text-white transition">居家生活</a></li>
+                    <li><a href="#" onclick="setCategory('美妝')" class="hover:text-white transition">美妝保養</a></li>
+                    <li><a href="#" onclick="setCategory('3C')" class="hover:text-white transition">3C 科技</a></li>
+                    <li><a href="#" onclick="setCategory('服飾')" class="hover:text-white transition">流行服飾</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto px-4 mt-8 pt-6 border-t border-secondary text-center text-xs text-gray-400">
+            &copy; 2026 物超所[質]選物 All rights reserved.
+        </div>
+    </footer>
 
     <script>
         let storeData = [];
-        const categories = ["全部", "居家生活", "美妝保養", "3C配件", "美食零食", "母嬰用品"];
+        // 8 大分類
+        const categories = ["全部", "居家", "美妝", "3C", "服飾", "食品", "運動", "婦幼", "寵物"];
         let currentCategory = "全部";
+        let currentSearch = "";
 
-        // 從 JSON 載入真實數據
+        // 載入資料
         async function loadData() {
             try {
+                // 為了展示多樣性，未來爬蟲抓的類別名稱如果包含這些字眼，就會自動歸類
                 const res = await fetch('./store_data.json');
-                storeData = await res.json();
+                const rawData = await res.json();
+                
+                // 資料清理與對應
+                storeData = rawData.map(p => {
+                    let cat = "其他";
+                    const catName = p.category || "";
+                    if(catName.includes("居家")) cat = "居家";
+                    else if(catName.includes("美妝") || catName.includes("保養")) cat = "美妝";
+                    else if(catName.includes("3C") || catName.includes("手機") || catName.includes("電腦") || catName.includes("家電")) cat = "3C";
+                    else if(catName.includes("裝") || catName.includes("服飾") || catName.includes("鞋")) cat = "服飾";
+                    else if(catName.includes("食") || catName.includes("零食")) cat = "食品";
+                    else if(catName.includes("運動") || catName.includes("休閒") || catName.includes("戶外")) cat = "運動";
+                    else if(catName.includes("母嬰") || catName.includes("婦幼") || catName.includes("童")) cat = "婦幼";
+                    else if(catName.includes("寵物")) cat = "寵物";
+                    else cat = "居家"; // 預設歸類
+
+                    return { ...p, displayCategory: cat };
+                });
+
                 renderCategories();
                 renderProducts();
             } catch (err) {
-                console.error('資料載入失敗，顯示預設畫面', err);
-                document.getElementById('product-container').innerHTML = '<p class="col-span-2 text-center text-gray-500 py-10">商品資料更新中...</p>';
+                console.error('資料載入失敗', err);
+                document.getElementById('product-container').innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">商品資料更新中...</p>';
             }
         }
 
+        // 渲染分類按鈕
         function renderCategories() {
             const container = document.getElementById('category-container');
             container.innerHTML = '';
             categories.forEach(cat => {
                 const btn = document.createElement('button');
                 const isActive = cat === currentCategory;
-                btn.className = `px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${isActive ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`;
+                // 深灰色系質感按鈕
+                btn.className = `px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${isActive ? 'bg-primary text-white shadow-md' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100 hover:text-primary'}`;
                 btn.textContent = cat;
-                btn.onclick = () => {
-                    currentCategory = cat;
-                    renderCategories();
-                    renderProducts();
-                };
+                btn.onclick = () => setCategory(cat);
                 container.appendChild(btn);
             });
         }
 
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.getElementById('hot').scrollIntoView({ behavior: 'smooth' });
+            renderCategories();
+            renderProducts();
+        }
+
+        // 搜尋功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            renderProducts();
+        });
+
+        // 渲染商品
         function renderProducts() {
             const container = document.getElementById('product-container');
+            const noResults = document.getElementById('no-results');
             container.innerHTML = '';
             
-            const filteredData = currentCategory === "全部" 
-                ? storeData 
-                : storeData.filter(p => p.category === currentCategory);
+            let filteredData = storeData;
+            
+            // 分類過濾
+            if (currentCategory !== "全部") {
+                filteredData = filteredData.filter(p => p.displayCategory === currentCategory);
+            }
+            
+            // 搜尋過濾
+            if (currentSearch) {
+                filteredData = filteredData.filter(p => p.name.toLowerCase().includes(currentSearch));
+            }
 
-            filteredData.forEach(p => {
-                const originalPrice = p.originalPrice || Math.floor(p.price * 1.3);
-                const discount = Math.round((1 - p.price / originalPrice) * 10);
-                const card = document.createElement('a');
-                card.href = p.link;
-                card.target = "_blank";
-                card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col";
+            document.getElementById('resultCount').textContent = `共 ${filteredData.length} 件嚴選`;
+
+            if (filteredData.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
                 
-                card.innerHTML = `
-                    <div class="relative w-full pt-[100%] bg-gray-100">
-                        <img src="${p.image}" class="absolute top-0 left-0 w-full h-full object-cover" alt="商品圖片">
-                        <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-sm">
-                            ${discount}折
-                        </div>
-                    </div>
-                    <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="text-sm text-gray-800 line-clamp-2 leading-snug mb-2">${p.name}</h3>
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-1.5 mb-1">
-                                <span class="text-xs text-gray-400 line-through">$${originalPrice}</span>
-                                <span class="text-lg font-bold text-red-600">$${p.price}</span>
-                            </div>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-xs text-gray-500">已售 ${p.sales}</span>
-                                <button class="shopee-btn text-white text-xs font-medium px-3 py-1.5 rounded hover:opacity-90 transition-opacity">
-                                    搶購
-                                </button>
+                filteredData.forEach(p => {
+                    const originalPrice = p.originalPrice || Math.floor(p.price * 1.3);
+                    const rating = parseFloat(p.ratingStar || 4.9).toFixed(1);
+                    const sales = p.sales > 10000 ? (p.sales/10000).toFixed(1) + '萬' : p.sales;
+                    
+                    const card = document.createElement('a');
+                    card.href = p.link;
+                    card.target = "_blank";
+                    card.className = "card-hover bg-white rounded-xl border border-gray-100 overflow-hidden flex flex-col group";
+                    
+                    card.innerHTML = `
+                        <div class="relative w-full pt-[100%] bg-gray-50 overflow-hidden">
+                            <img src="${p.image}" class="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${p.name}" loading="lazy">
+                            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+                                <svg class="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                ${rating}
                             </div>
                         </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+                        <div class="p-4 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded uppercase tracking-wide">${p.displayCategory}</span>
+                                <span class="text-[10px] text-gray-500">已售 ${sales}</span>
+                            </div>
+                            <h3 class="text-sm font-medium text-gray-800 line-clamp-2 leading-relaxed mb-3 group-hover:text-secondary transition-colors">${p.name}</h3>
+                            <div class="mt-auto pt-3 border-t border-gray-50 flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-gray-400 line-through leading-none mb-1">NT$ ${originalPrice}</span>
+                                    <span class="text-lg font-bold text-primary leading-none">NT$ ${p.price}</span>
+                                </div>
+                                <span class="bg-secondary text-white text-xs px-4 py-2 rounded-full font-medium shadow-sm group-hover:bg-primary transition-colors">
+                                    看優惠
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
         }
 
         // 初始化
